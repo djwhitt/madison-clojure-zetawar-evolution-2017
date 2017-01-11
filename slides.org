@@ -1,0 +1,12 @@
+#+OPTIONS: num:nil
+
+* What is Zetawar?
+
+  - Turn based strategy browser game
+  - 100% ClojureScript
+  - Kickstarter project
+
+* Zetawar Goals
+
+  - A game that can survive
+  - AI playground
