@@ -6,7 +6,49 @@
   - 100% ClojureScript
   - Kickstarter project
 
-* Zetawar Goals
+* Demo
 
-  - A game that can survive
+* Goals
+
+  - A game that can survive (serverless)
+  - Reference ClojureScript codebase
   - AI playground
+
+* Original architecture
+
+  - Reagent (React) - view
+  - DataScript DB - model
+  - Posh - model => view
+  - Event handling via callbacks
+  - AI executes transactions directly
+
+* Original architecture diagram
+
+   TODO: add diagram
+
+* New architecture
+
+  - Reagent (React) - same
+  - DataScript DB - same
+  - Posh - same
+  - Events handling via core.async
+  - Command based AI communication
+
+* Event handling
+
+  - Events are data
+  - Enqueued via core.async
+  - Event handlers return
+    - Transactions
+    - More events
+    - Player (AI) notifications
+
+* Event handler diagram
+
+  TODO: add diagram
+
+* Event handler code
+  
+  TODO: add code
+
+* Advantages 
