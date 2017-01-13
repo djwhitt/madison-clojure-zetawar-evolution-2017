@@ -16,6 +16,7 @@
 
 * Original architecture
 
+  - Component - lifecycle
   - Reagent (React) - view
   - DataScript DB - model
   - Posh - model => view
@@ -31,7 +32,7 @@
   - Reagent (React) - same
   - DataScript DB - same
   - Posh - same
-  - Events handling via core.async
+  - Reified events dispatched via core.async
   - Command based AI communication
 
 * Event handling
@@ -51,4 +52,6 @@
   
   TODO: add code
 
-* Advantages 
+* Reified event advantages 
+
+* Component vs Integrant
