@@ -14,44 +14,84 @@
   - Reference ClojureScript codebase
   - AI playground
 
-* Original architecture
-
-  - Component - lifecycle
-  - Reagent (React) - view
-  - DataScript DB - model
-  - Posh - model => view
-  - Event handling via callbacks
-  - AI executes transactions directly
-
-* Original architecture diagram
-
-   TODO: add diagram
-
-* New architecture
-
-  - Reagent (React) - same
-  - DataScript DB - same
-  - Posh - same
-  - Reified events dispatched via core.async
-  - Command based AI communication
-
-* Event handling
-
-  - Events are data
-  - Enqueued via core.async
-  - Event handlers return
-    - Transactions
-    - More events
-    - Player (AI) notifications
-
-* Event handler diagram
+* Old architecture diagram
 
   TODO: add diagram
 
-* Event handler code
+* Old architecture
+
+  | Model          | DataScript            |
+  | View           | Reagent (React)       |
+  | Model → View   | Posh                  |
+  | Event handling | Callbacks             |
+  | AI interface   | Direct DB interaction |
+  | Lifecycle      | Component             |
+
+* New architecture diagram
+
+  TODO: add diagram
+
+* New architecture
+
+  | Model          | Unchanged                   |
+  | View           | Unchanged                   |
+  | Model → View   | Unchanged                   |
+  | Event handling | Reified events + core.async |
+  | AI interface   | Notifications and commands  |
+  | Lifecycle      | Integrant                   |
+
+* Old event code
+
+* New event handling overview
+
+  TODO: add router point
+
+  - Events are data
+  - Dispatched via core.async
+  - Router calls handlers
+  - Handlers are pure functions (mostly)
+  - Handlers return
+    - Transactions
+    - Events
+    - AI notifications
+
+* New event handler diagram
+
+  TODO: add diagram
+
+* New event handler code
   
   TODO: add code
 
 * Reified event advantages 
+  
+  - Specabiliy
+  - Testability
+  - Logging
+  - Error handling
+
+* Original AI diagram
+
+* Original AI overview
+
+  - Direct game DB interaction
+    - Requires running in the same process
+    - Incompatible with new event system
+  - No support for multiple AIs
+
+* New AI diagram
+
+* New AI overview
+
+  - No direct game DB interaction
+  - AIs maintain their own game state
+  - Supports any number of players
+  - Game process sends notifications to AIs
+  - AIs send events back to game process
+
+* Other uses for AI action format
+
+  - Game replay
+  - Peer to peer
 
 * Component vs Integrant
