@@ -3,8 +3,8 @@
 * What is Zetawar?
 
   - Turn based strategy browser game
-  - 100% ClojureScript
-  - Kickstarter project
+  - Successful Kickstarter project
+  - 100% Clojure and ClojureScript
 
 * Demo
 
@@ -14,20 +14,50 @@
   - Reference ClojureScript codebase
   - AI playground
 
-* Old architecture diagram
+* Original architecture
 
-  TODO: add diagram
+  #+BEGIN_SRC ditaa :file images/old_architecture.png
+    +--------------------+
+    |                    |       Events
+    | Reagent Components +--------------------+
+    |                    |                    |
+    +--------------------+                    |
+              ^                               |
+              |                               |
+    +---------+----------+                    |
+    |                    |                    |
+    |       Tracks       |                    v
+    |                    |              +-----------+
+    +--------------------+              |           |
+              ^                         | Callbacks |
+              |                         |           |
+    +---------+----------+              +-----+-----+
+    |                    |                    |
+    |        Posh        |                    |
+    |                    |                    |
+    +--------------------+                    |
+              ^                               |
+              |                               |
+    +---------+----------+                    |
+    | {s}                |    Transactions    |
+    |   DataScript DB    |<-------------------+
+    |                    |
+    +--------------------+
+  #+END_SRC
 
-* Old architecture
+  #+RESULTS:
+  [[file:images/old_architecture.png]]
 
+* Original architecture
+  
   | Model          | DataScript            |
   | View           | Reagent (React)       |
-  | Model → View   | Posh                  |
+  | Model → View   | Posh + Tracks         |
   | Event handling | Callbacks             |
   | AI interface   | Direct DB interaction |
   | Lifecycle      | Component             |
 
-* New architecture diagram
+* New architecture
 
   TODO: add diagram
 
@@ -40,58 +70,68 @@
   | AI interface   | Notifications and commands  |
   | Lifecycle      | Integrant                   |
 
-* Old event code
+* Old event handler
 
-* New event handling overview
+  TODO: add example code
 
-  TODO: add router point
+* New event handler
+  
+  TODO: add diagram
 
+* New event system overview
+  
   - Events are data
   - Dispatched via core.async
-  - Router calls handlers
   - Handlers are pure functions (mostly)
   - Handlers return
     - Transactions
     - Events
     - AI notifications
 
-* New event handler diagram
+* Router
 
-  TODO: add diagram
+  - Calls handlers
+  - Executes transactions
+  - Sends AI notifications
 
-* New event handler code
+* Router
   
   TODO: add code
 
-* Reified event advantages 
+* New event system advantages 
   
-  - Specabiliy
-  - Testability
+  - Validation
+  - Testing
   - Logging
   - Error handling
 
-* Original AI diagram
+* Original AI system
 
-* Original AI overview
+  TODO: add sequence diagram
+
+* Original AI system
 
   - Direct game DB interaction
     - Requires running in the same process
     - Incompatible with new event system
   - No support for multiple AIs
 
-* New AI diagram
+* New AI system
 
-* New AI overview
+  TODO: add sequence diagram
+
+* New AI system
 
   - No direct game DB interaction
-  - AIs maintain their own game state
-  - Supports any number of players
   - Game process sends notifications to AIs
   - AIs send events back to game process
+  - AIs maintain local copy of game state
+  - Supports any number of players
+  - Supports AI vs AI
 
-* Other uses for AI action format
+* Other action format uses
 
-  - Game replay
+  - Game logging and replay
   - Peer to peer
 
 * Component vs Integrant
