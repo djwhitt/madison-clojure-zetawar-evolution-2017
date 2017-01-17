@@ -16,6 +16,8 @@
 
 * Original architecture
 
+  TODO: add AI to diagram
+
   #+BEGIN_SRC ditaa :file images/old_architecture.png
     +--------------------+
     |                    |       Events
@@ -70,13 +72,9 @@
   | AI interface   | Notifications and commands  |
   | Lifecycle      | Integrant                   |
 
-* Old event handler
-
-  TODO: add example code
-
-* New event handler
-  
-  TODO: add diagram
+  #+BEGIN_NOTES
+  Not covering Integrant change.
+  #+END_NOTES
 
 * New event system overview
   
@@ -87,6 +85,36 @@
     - Transactions
     - Events
     - AI notifications
+
+* Old event handler
+
+  #+BEGIN_SRC clojure
+    (defn repair [conn ev]
+      (let [db @conn
+            [q r] (first (d/q '[:find ?q ?r
+                                :where
+                                [?a :app/selected-q ?q]
+                                [?a :app/selected-r ?r]]
+                              db))]
+        (game/repair! conn (app/current-game-id db) q r)
+        (clear-selection conn nil)))
+  #+END_SRC
+
+* New event handler
+
+  #+BEGIN_SRC clojure
+    (defmethod router/handle-event ::repair-selected
+      [{:as handler-ctx :keys [db]} _]
+      (let [game (app/current-game db)
+            cur-faction-color (game/current-faction-color game)
+            [q r] (app/selected-hex db)]
+        {:dispatch [[:zetawar.events.game/execute-action
+                     {:action/type :action.type/repair-unit
+                      :action/faction-color cur-faction-color
+                      :action/q q
+                      :action/r r}]
+                    [::clear-selection]]}))
+  #+END_SRC
 
 * Router
 
@@ -110,7 +138,7 @@
   TODO: add sequence diagram
 
 * Original AI system
-
+  
   - Direct game DB interaction
     - Requires running in the same process
     - Incompatible with new event system
@@ -124,7 +152,7 @@
 
   - No direct game DB interaction
   - Game process sends notifications to AIs
-  - AIs send events back to game process
+  - AIs send events to game process
   - AIs maintain local copy of game state
   - Supports any number of players
   - Supports AI vs AI
@@ -132,6 +160,19 @@
 * Other action format uses
 
   - Game logging and replay
-  - Peer to peer
+  - Network games
 
-* Component vs Integrant
+* Optimizing Reagent and Posh
+
+  - Queries logic often overlaps
+    - Combine queries
+    - Use Reagent to create views
+  - Data changes at different rates
+
+* Optimization examples
+
+* What I've learned
+
+* Future plans
+
+* Making an AI
