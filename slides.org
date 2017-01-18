@@ -162,7 +162,18 @@
 
 * Original AI system
 
-  TODO: add sequence diagram
+  #+BEGIN_SRC plantuml :file images/old_ai_sequence.png
+  actor Player
+  participant Zetawar
+  database "Zetawar DB"
+  participant AI
+  Player -> Zetawar: End turn clicked
+  Zetawar -> AI: Function call
+  "Zetawar DB" <- AI: Action transaction
+  #+END_SRC
+
+  #+RESULTS:
+  [[file:images/old_ai_sequence.png]]
 
 * Original AI system
   
@@ -173,7 +184,24 @@
 
 * New AI system
 
-  TODO: add sequence diagram
+  #+BEGIN_SRC plantuml :file images/new_ai_sequence.png
+  actor Player
+  database "Zetawar DB"
+  participant Zetawar
+  participant AI
+  database "AI DB"
+  Player -> Zetawar: End turn clicked
+  Zetawar -> AI: Start notification
+  Zetawar <- AI: Game state request
+  Zetawar -> AI: Game state
+  AI -> "AI DB": Game state
+  Zetawar <- AI: Action
+  Zetawar -> "Zetawar DB": Action transaction
+  #+END_SRC
+
+  #+RESULTS:
+  [[file:images/new_ai_sequence.png]]
+
 
 * New AI system
 
