@@ -261,11 +261,108 @@
     - Combine queries
     - Use Reagent to create views
   - Data changes at different rates
+    - Use separate queries for fast vs slow data
+    - Query slow data in bulk
+    - Query fast data at granularity of change
 
-* Optimization examples
+  #+BEGIN_NOTES
+  - Map changes infrequently units change frequently
+  #+END_NOTES
 
-* What I've learned
+* Optimization example
+
+  #+BEGIN_SRC clojure
+    (deftrack terrains [conn]
+      (let [map-eid' @(game-map-eid conn)]
+        (:map/terrains
+         @(posh/pull conn [{:map/terrains terrain-pull}]
+                     map-eid'))))
+
+    (deftrack map-width [conn]
+      (or (->> @(terrains conn)
+               (map :terrain/q)
+               (apply max))
+          0))
+  #+END_SRC
+
+* High level AI interface
+
+  #+BEGIN_SRC plantuml :file images/new_ai_sequence.png
+  start
+
+  while (actors to score?)
+    :score actor;
+  endwhile
+  :pick actor with highest score;
+  while (actions to score?)
+    :score actions;
+  endwhile
+  :pick action with highest score;
+  :perform action;
+
+  stop
+  #+END_SRC
+
+  #+RESULTS:
+  [[file:images/new_ai_sequence.png]]
+
+  #+BEGIN_NOTES
+  - Outer loop (while actionable actors?) is missing to fit on slide.
+  #+END_NOTES
+
+* Making an AI
+
+  - Implement actor (base/unit) score function
+  - Implement base action score function
+  - Implement unit action chooser
+  - Profit!
+
+* AI Example
+
+  #+BEGIN_SRC clojure
+    (defn score-actor [db game actor actor-ctx]
+      (cond
+        (game/unit? actor) (rand-int 100)
+        (game/base? actor) (+ (rand-int 100) 100)))
+
+    (defn score-base-action [db game base action-ctx action]
+      (rand-int 200))
+  #+END_SRC
+
+* AI Example
+
+  #+BEGIN_SRC clojure
+    (defn mk-unit-action-ctx [db game actor-ctx unit]
+      (assoc actor-ctx :closest-base (game/closest-capturable-base db game unit)))
+
+    (defn score-unit-action [db game unit action-ctx action]
+      (let [{:keys [closest-base]} action-ctx]
+        (case (:action/type action)
+          :action.type/capture-base
+          200
+
+          :action.type/attack-unit
+          100
+
+          :action.type/move-unit
+          (let [[base-q base-r] (game/terrain-hex closest-base)
+                {:keys [action/to-q action/to-r]} action
+                base-distance (hex/distance base-q base-r to-q to-r)]
+            (- 100 base-distance))
+
+          0)))
+  #+END_SRC
+ 
+* Lessons learned
+   
+  TODO: add more content
+
+  - The relational still rocks
+  - DataScript is fast enough
 
 * Future plans
 
-* Making an AI
+  TODO: add more content
+
+  - Engage with the community more
+  - Add more AI helper functions
