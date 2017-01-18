@@ -6,13 +6,24 @@
   - Successful Kickstarter project
   - 100% Clojure and ClojureScript
 
-* Demo
-
 * Goals
 
-  - A game that can survive (serverless)
+  - A game that can last (serverless)
   - Reference ClojureScript codebase
   - AI playground
+
+* Demo
+
+* Talk outline
+
+  - Original architecture overview
+  - New architecture overview
+  - Original event system vs new event system
+  - Original AI system vs new AI system
+  - Optimizing Reagent and Posh
+  - Writing an AI
+  - Lessons learned
+  - Future plans
 
 * Original architecture
 
