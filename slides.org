@@ -259,7 +259,7 @@
   participant AI
   database "AI DB"
   Player -> Zetawar: End turn clicked
-  Zetawar -> AI: Start notification
+  Zetawar -> AI: Start turn notification
   Zetawar <- AI: Game state request
   Zetawar -> AI: Game state
   AI -> "AI DB": Game state
