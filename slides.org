@@ -48,6 +48,19 @@
   #+RESULTS:
   [[file:images/old_architecture.png]]
 
+
+  #+BEGIN_NOTES
+  - DataScript DB is the canonical data source
+  - Views are rendered by Reagent (React)
+  - Views are pure functions of the DB
+  - View updates are automatic
+  - Posh executes reactive DataScript queries
+  - Tracks perform reactive transformations of query results
+  - Tracks can be layered
+  - Events and transactions are not reified
+  - AI is an impure function called by the 'end-turn' handler
+  #+END_NOTES
+
 * Original architecture
   
   | Model          | DataScript            |
@@ -71,18 +84,23 @@
   | Lifecycle      | Integrant                   |
 
   #+BEGIN_NOTES
-  Not covering Integrant change.
+  Not covering Integrant change in this talk.
   #+END_NOTES
 
-* New event system overview
+* New event system
   
   - Events are data
   - Dispatched via core.async
+  - Router sends events to handlers
   - Handlers are pure functions (mostly)
   - Handlers return
     - Transactions
     - Events
     - AI notifications
+
+  #+BEGIN_NOTES
+  Inspired by re-frame 0.9 event system.
+  #+END_NOTES
 
 * Old event handler
 
@@ -97,6 +115,11 @@
         (game/repair! conn (app/current-game-id db) q r)
         (clear-selection conn nil)))
   #+END_SRC
+
+  #+BEGIN_NOTES
+  - Connection (not DB) passed in
+  - Repair executes transactions
+  #+END_NOTES
 
 * New event handler
 
@@ -113,6 +136,12 @@
                       :action/r r}]
                     [::clear-selection]]}))
   #+END_SRC
+
+  #+BEGIN_NOTES
+  - Pure function
+  - DB (value) passed in
+  - Transactions and events returned
+  #+END_NOTES
 
 * Router
 
