@@ -72,30 +72,30 @@
   - AI is an impure function called by the 'end-turn' handler
   #+END_NOTES
 
-* Original architecture
-  
-  | Model          | DataScript            |
-  | View           | Reagent (React)       |
-  | Model → View   | Posh + Tracks         |
-  | Event handling | Callbacks             |
-  | AI interface   | Direct DB interaction |
-  | Lifecycle      | Component             |
-
 * New architecture
 
   TODO: add diagram
 
+* Original architecture
+
+  | Model            | DataScript            |
+  | View             | Reagent (React)       |
+  | Model → View     | Posh + Tracks         |
+  | Event handling   | Callbacks             |
+  | AI communication | Direct DB interaction |
+  | Lifecycle        | Component             |
+
 * New architecture
 
-  | Model          | Unchanged                   |
-  | View           | Unchanged                   |
-  | Model → View   | Unchanged                   |
-  | Event handling | Reified events + core.async |
-  | AI interface   | Notifications and commands  |
-  | Lifecycle      | Integrant                   |
+  | Model            | Unchanged                   |
+  | View             | Unchanged                   |
+  | Model → View     | Unchanged                   |
+  | Event handling   | Reified events + core.async |
+  | AI communication | Notifications and events    |
+  | Lifecycle        | Integrant                   |
 
   #+BEGIN_NOTES
-  Not covering Integrant change in this talk.
+  Not covering Component vs Integrant in this talk.
   #+END_NOTES
 
 * New event system
