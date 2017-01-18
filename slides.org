@@ -74,7 +74,37 @@
 
 * New architecture
 
-  TODO: add diagram
+  #+BEGIN_SRC ditaa :file images/new_architecture.png
+    +--------------------+
+    |                    |          Events
+    | Reagent Components +-------------------------+
+    |                    |                         |
+    +--------------------+                         |
+              ^                                    |
+              |                                    v
+    +---------+----------+                 +----------------+ Notifications +------+
+    |                    |                 |                +-------------->|      |
+    |       Tracks       |              +->|     Router     |     Events    |  AI  |
+    |                    |              |  |                |<--------------+      |
+    +--------------------+    Events    |  +-------+--------+               +------+
+              ^                 +       |          |
+              |           Notifications |          v
+    +---------+----------+              |  +----------------+
+    |                    |              |  |                |
+    |        Posh        |              +--+ Event Handlers |
+    |                    |                 |                |
+    +--------------------+                 +-------+--------+
+              ^                                    |
+              |                                    |
+    +---------+----------+                         |
+    | {s}                |      Transactions       |
+    |   DataScript DB    |<------------------------+
+    |                    |
+    +--------------------+
+  #+END_SRC
+
+  #+RESULTS:
+  [[file:images/new_architecture.png]]
 
 * Original architecture
 
@@ -220,7 +250,7 @@
     - Incompatible with new event system
   - No support for multiple AIs
 
-* New AI system
+* New AI system 
 
   #+BEGIN_SRC plantuml :file images/new_ai_sequence.png
   actor Player
@@ -266,7 +296,7 @@
     - Query fast data at granularity of change
 
   #+BEGIN_NOTES
-  - Map changes infrequently units change frequently
+  Example: map changes infrequently units change frequently
   #+END_NOTES
 
 * Optimization example
@@ -287,7 +317,7 @@
 
 * High level AI interface
 
-  #+BEGIN_SRC plantuml :file images/new_ai_sequence.png
+  #+BEGIN_SRC plantuml :file images/ai_interface.png
   start
 
   while (actors to score?)
@@ -304,7 +334,7 @@
   #+END_SRC
 
   #+RESULTS:
-  [[file:images/new_ai_sequence.png]]
+  [[file:images/ai_interface.png]]
 
   #+BEGIN_NOTES
   - Outer loop (while actionable actors?) is missing to fit on slide.
