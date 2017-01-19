@@ -1,5 +1,6 @@
 #+OPTIONS: num:nil
 
+* The Evolution of Zetawar
 * What is Zetawar?
 
   - Turn based strategy browser game
@@ -269,7 +270,6 @@
 
   #+RESULTS:
   [[file:images/new_ai_sequence.png]]
-
 
 * New AI system
 
