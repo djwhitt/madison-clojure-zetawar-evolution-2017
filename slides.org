@@ -14,9 +14,9 @@
 
 * Goals
 
-  - Make a game that can last (serverless)
-  - Create a sizable reference ClojureScript codebase
-  - Provide an AI playground
+  - A game that can last (serverless)
+  - Sizable reference ClojureScript codebase
+  - Beginner friendly AI environment
 
   #+BEGIN_NOTES
   - Several similar games have been shut down essentially due to hosting or maintenance costs.
@@ -119,6 +119,10 @@
   #+RESULTS:
   [[file:images/new_architecture.png]]
 
+  #+BEGIN_NOTES
+  - Not clear in diagram, but the router executes transactions.
+  #+END_NOTES
+
 * Original architecture
 
   | Model            | DataScript            |
@@ -194,7 +198,22 @@
   #+BEGIN_NOTES
   - Pure function
   - DB (value) passed in
-  - Transactions and events returned
+  - Events returned
+  #+END_NOTES
+
+* New event handler
+
+  #+BEGIN_SRC clojure
+    (defmethod router/handle-event ::execute-action
+      [{:as handler-ctx :keys [db]} [_ action]]
+      (let [game (app/current-game db)]
+          ;; ...
+          {:tx     (game/action-tx db game action)
+           :notify [[:zetawar.players/apply-action :faction.color/all action]]})))
+  #+END_SRC
+
+  #+BEGIN_NOTES
+  - Transactions and notifications returned
   #+END_NOTES
 
 * Router
@@ -249,19 +268,30 @@
   database "Zetawar DB"
   participant AI
   Player -> Zetawar: End turn clicked
-  Zetawar -> AI: Function call
-  "Zetawar DB" <- AI: Action transaction
+  Zetawar -> AI: Call AI function
+  group AI function
+    "Zetawar DB" <- AI: Action transaction
+    "Zetawar DB" <- AI: Action transaction
+    rnote over "Zetawar DB", AI
+       etc.
+    end note
+  end
   #+END_SRC
 
   #+RESULTS:
   [[file:images/old_ai_sequence.png]]
 
-* Original AI system
-  
-  - Direct game DB interaction
-    - Requires running in the same process
-    - Incompatible with new event system
-  - No support for multiple AIs
+
+  #+BEGIN_NOTES
+  - AI directly interacts with game DB
+  - AI is one big side effect
+  - AI must run in the same process
+  - Hard to integrate well with new event system
+    - Due to side effects
+  - Lots of subtle problems
+    - Hard to pause for rendering
+    - Hard to support stepping through moves
+  #+END_NOTES
 
 * New AI system 
 
@@ -276,21 +306,31 @@
   Zetawar <- AI: Game state request
   Zetawar -> AI: Game state
   AI -> "AI DB": Game state
-  Zetawar <- AI: Action
+  Zetawar <- AI: Action event
   Zetawar -> "Zetawar DB": Action transaction
+  rnote over Zetawar, AI
+      Game state request and action cycle repeats
+  end note
   #+END_SRC
 
   #+RESULTS:
   [[file:images/new_ai_sequence.png]]
 
-* New AI system
 
-  - No direct game DB interaction
-  - Game process sends notifications to AIs
-  - AIs send events to game process
+  #+BEGIN_NOTES
+  - No direct AI interaction with game DB
+  - Communication is message based
+    - Game sends notifications
+    - AIs send events
+    - Game actions are described by data
   - AIs maintain local copy of game state
-  - Supports any number of players
-  - Supports AI vs AI
+    - Can be update incrementally, but isn't yet
+  - AI is logically a pure function
+    - Side effects happen, but they're internal to the AI
+  - Supports moving AI to another process
+  - Easier to implement action stepping
+  - Rendering pauses can happen in the router
+  #+END_NOTES
 
 * Other action format uses
 
@@ -302,13 +342,14 @@
   - Queries logic often overlaps
     - Combine queries
     - Use Reagent to create views
-  - Data changes at different rates
+  - Different data changes at different rates
     - Use separate queries for fast vs slow data
     - Query slow data in bulk
     - Query fast data at granularity of change
 
   #+BEGIN_NOTES
-  Example: map changes infrequently units change frequently
+  - Had a hard time decided where to put this in the presentation. 
+  - Example: Map changes infrequently, but units change frequently.
   #+END_NOTES
 
 * Optimization example
@@ -349,7 +390,9 @@
   [[file:images/ai_interface.png]]
 
   #+BEGIN_NOTES
-  - Outer loop (while actionable actors?) is missing to fit on slide.
+  - Actors = base and bases
+  - One action picked per iteration
+  - Process repeats until it returns no actions
   #+END_NOTES
 
 * Making an AI
@@ -396,15 +439,21 @@
   #+END_SRC
  
 * Lessons learned
-   
-  TODO: add more content
 
-  - The relational model still rocks
+  TODO: add more content
+   
+  - Relational model++
   - DataScript is fast enough
+  - Lots of room for optimization
 
 * Future plans
-
+  
   TODO: add more content
 
   - Engage with the community
   - Add more AI helper functions
+  - Spec data format
+
+* Q and A
+
+  TODO: add links
