@@ -32,7 +32,7 @@
   - Original event system vs new event system
   - Original AI system vs new AI system
   - Optimizing Reagent and Posh
-  - Writing an AI
+  - How to write an AI
   - Lessons learned
   - Future plans
 
@@ -40,29 +40,29 @@
 
   #+BEGIN_SRC ditaa :file images/old_architecture.png
     +--------------------+
-    |                    |     Events
-    | Reagent Components +----------------+
-    |                    |                |
-    +--------------------+                |
-              ^                           |
-              |                           |
-    +---------+----------+                |
-    |                    |                |
-    |       Tracks       |                v
-    |                    |          +-----------+  +-------+
-    +--------------------+          |           |  |       |
-              ^                     | Callbacks +->|  AI   |
-              |                     |           |  |       |
-    +---------+----------+          +-----+-----+  +---+---+
-    |                    |                |            |
-    |        Posh        |                |            |
-    |                    |                |            |
-    +--------------------+                |            |
-              ^                           |            |
-              |                           |            |
-    +---------+----------+                |            |
-    | {s}                |   Transactions |            |
-    |   DataScript DB    |<---------------+------------+
+    |                    |  Event function calls
+    | Reagent Components +-----------------------+
+    |                    |                       |
+    +--------------------+                       |
+              ^                                  |
+              |                                  |
+    +---------+----------+                       |
+    |                    |                       |
+    |       Tracks       |                       v
+    |                    |                 +-----------+  +-------+
+    +--------------------+                 |           |  |       |
+              ^                            | Callbacks +->|  AI   |
+              |                            |           |  |       |
+    +---------+----------+                 +-----+-----+  +---+---+
+    |                    |                       |            |
+    |        Posh        |                       |            |
+    |                    |                       |            |
+    +--------------------+                       |            |
+              ^                                  |            |
+              |                                  |            |
+    +---------+----------+                       |            |
+    | {s}                |   Calls to transact!  |            |
+    |   DataScript DB    |<----------------------+------------+
     |                    |
     +--------------------+
   #+END_SRC
@@ -72,13 +72,15 @@
 
 
   #+BEGIN_NOTES
-  - DataScript DB is the canonical data source
+  - DataScript is a fully relational in-memory DB
+  - DataScript is the canonical data store
   - Views are rendered by Reagent (React)
   - Views are pure functions of the DB
   - View updates are automatic
   - Posh executes reactive DataScript queries
-  - Tracks perform reactive transformations of query results
-  - Tracks can be layered
+  - Tracks are a type of reaction in Reagent
+  - Reactions are reactive functions of data and other reactions
+  - Combination of Posh + Tracks is similar to in-memory mviews
   - Events and transactions are not reified
   - AI is an impure function called by the 'end-turn' handler
   #+END_NOTES
@@ -87,7 +89,7 @@
 
   #+BEGIN_SRC ditaa :file images/new_architecture.png
     +--------------------+
-    |                    |          Events
+    |                    |       Event data 
     | Reagent Components +-------------------------+
     |                    |                         |
     +--------------------+                         |
@@ -108,7 +110,7 @@
               ^                                    |
               |                                    |
     +---------+----------+                         |
-    | {s}                |      Transactions       |
+    | {s}                |     Transaction data    |
     |   DataScript DB    |<------------------------+
     |                    |
     +--------------------+
@@ -397,12 +399,12 @@
    
   TODO: add more content
 
-  - The relational still rocks
+  - The relational model still rocks
   - DataScript is fast enough
 
 * Future plans
 
   TODO: add more content
 
-  - Engage with the community more
+  - Engage with the community
   - Add more AI helper functions
