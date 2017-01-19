@@ -5,13 +5,23 @@
 
   - Turn based strategy browser game
   - Successful Kickstarter project
-  - 100% Clojure and ClojureScript
+  - 100% ClojureScript
+
+  #+BEGIN_NOTES
+  - Kickstarter was successfully funded in July.
+  - Some Clojure for static site rendering, but game logic is 100% ClojureScript.
+  #+END_NOTES
 
 * Goals
 
-  - A game that can last (serverless)
-  - Reference ClojureScript codebase
-  - AI playground
+  - Make a game that can last (serverless)
+  - Create a sizable reference ClojureScript codebase
+  - Provide an AI playground
+
+  #+BEGIN_NOTES
+  - Several similar games have been shut down essentially due to hosting or maintenance costs.
+  - There aren't tons of large open source ClojureScript applications people can learn from.
+  #+END_NOTES
 
 * Demo
 
