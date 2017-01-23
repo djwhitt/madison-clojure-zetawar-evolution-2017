@@ -365,7 +365,7 @@
   - Game logging and replay
   - Network games
 
-* Questions on architecture changes?
+* Architecture questions?
 
   #+BEGIN_NOTES
   - Moving on to optimization
@@ -405,7 +405,7 @@
           0))
   #+END_SRC
 
-* Questions on optimization?
+* Optimization questions?
 
   #+BEGIN_NOTES
   - Moving on to AI how to.
@@ -527,6 +527,12 @@
   - action-ctx
     - Returned by mk-unit-action-ctx
     - Computer once for each pass over unit actions
+  #+END_NOTES
+
+* AI interface questions?
+
+  #+BEGIN_NOTES
+  - Moving on to conclusion.
   #+END_NOTES
 
 * Lessons learned
