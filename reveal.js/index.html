@@ -33,18 +33,22 @@
 </section>
 <section>
 <section id="slide-orgheadline2">
-<h2 id="orgheadline2">What is Zetawar?</h2>
+<h2 id="orgheadline2">Intro</h2>
 <ul>
-<li>Turn based strategy browser game</li>
-<li>Successful Kickstarter project</li>
-<li>100% ClojureScript</li>
+<li><a href="https://github.com/djwhitt/madison-clojure-zetawar-evolution-2017">https://github.com/djwhitt/madison-clojure-zetawar-evolution-2017</a></li>
+<li><a href="http://www.zetawar.com/">http://www.zetawar.com/</a></li>
+<li><a href="https://github.com/zetawar/zetawar">https://github.com/zetawar/zetawar</a></li>
+<li>@djwhitt on Twitter and GitHub</li>
+<li>@ZetawarGame on Twitter</li>
 
 </ul>
 
 <aside class="notes">
 <ul>
-<li>Kickstarter was successfully funded in July.</li>
-<li>Some Clojure for static site rendering, but game logic is 100% ClojureScript.</li>
+<li>David Whittington</li>
+<li>Independent software developer</li>
+<li>Working on Zetawar full time since July</li>
+<li>Available at the end of January</li>
 
 </ul>
 
@@ -54,18 +58,19 @@
 </section>
 <section>
 <section id="slide-orgheadline3">
-<h2 id="orgheadline3">Goals</h2>
+<h2 id="orgheadline3">What is Zetawar?</h2>
 <ul>
-<li>A game that can last (serverless)</li>
-<li>Sizable reference ClojureScript codebase</li>
-<li>Beginner friendly AI environment</li>
+<li>Turn based strategy browser game</li>
+<li>Successful Kickstarter project</li>
+<li>100% ClojureScript</li>
 
 </ul>
 
 <aside class="notes">
 <ul>
-<li>Several similar games have been shut down essentially due to hosting or maintenance costs.</li>
-<li>There aren't tons of large open source ClojureScript applications people can learn from.</li>
+<li>Kickstarter funded in July</li>
+<li>Some Clojure for site</li>
+<li>Game logic 100% ClojureScript</li>
 
 </ul>
 
@@ -75,13 +80,34 @@
 </section>
 <section>
 <section id="slide-orgheadline4">
-<h2 id="orgheadline4">Demo</h2>
+<h2 id="orgheadline4">Goals</h2>
+<ul>
+<li>A game that can last (serverless)</li>
+<li>Sizable reference ClojureScript codebase</li>
+<li>Beginner friendly AI environment</li>
+
+</ul>
+
+<aside class="notes">
+<ul>
+<li>Several similar games shut down by hosting cost</li>
+<li>We need more large OSS ClojureScript applications</li>
+
+</ul>
+
+</aside>
 
 </section>
 </section>
 <section>
 <section id="slide-orgheadline5">
-<h2 id="orgheadline5">Talk outline</h2>
+<h2 id="orgheadline5">Demo</h2>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline6">
+<h2 id="orgheadline6">Talk outline</h2>
 <ul>
 <li>Original architecture overview</li>
 <li>New architecture overview</li>
@@ -97,8 +123,8 @@
 </section>
 </section>
 <section>
-<section id="slide-orgheadline6">
-<h2 id="orgheadline6">Original architecture</h2>
+<section id="slide-orgheadline7">
+<h2 id="orgheadline7">Original architecture</h2>
 
 <div class="figure">
 <p><img src="images/old_architecture.png" alt="old_architecture.png" />
@@ -108,36 +134,16 @@
 
 <aside class="notes">
 <ul>
-<li>DataScript is a fully relational in-memory DB</li>
-<li>DataScript is the canonical data store</li>
-<li>Views are rendered by Reagent (React)</li>
-<li>Views are pure functions of the DB</li>
-<li>View updates are automatic</li>
-<li>Posh executes reactive DataScript queries</li>
-<li>Tracks are a type of reaction in Reagent</li>
-<li>Reactions are reactive functions of data and other reactions</li>
-<li>Combination of Posh + Tracks is similar to in-memory mviews</li>
-<li>Events and transactions are not reified</li>
-<li>AI is an impure function called by the 'end-turn' handler</li>
-
-</ul>
-
-</aside>
-
-</section>
-</section>
-<section>
-<section id="slide-orgheadline7">
-<h2 id="orgheadline7">New architecture</h2>
-
-<div class="figure">
-<p><img src="images/new_architecture.png" alt="new_architecture.png" />
-</p>
-</div>
-
-<aside class="notes">
-<ul>
-<li>Not clear in diagram, but the router executes transactions.</li>
+<li><b>DataScript</b> is the <b>canonical data store</b></li>
+<li>DataScript is a <b>relational in-memory DB</b></li>
+<li><b>Views</b> are <b>rendered by Reagent</b> (React)</li>
+<li>Views are <b>pure functions</b> of the DB</li>
+<li>View <b>updates are automatic</b></li>
+<li><b>Posh</b> reactively executes <b>DataScript queries</b></li>
+<li><b>Tracks</b> are reactive functions</li>
+<li>Posh + Tracks = <b>in-memory mviews</b></li>
+<li><b>Events and transactions</b> are <b>not reified</b></li>
+<li><b>AI</b> is an <b>impure function</b> called by 'end-turn' handler</li>
 
 </ul>
 
@@ -147,7 +153,36 @@
 </section>
 <section>
 <section id="slide-orgheadline8">
-<h2 id="orgheadline8">Original architecture</h2>
+<h2 id="orgheadline8">New architecture</h2>
+
+<div class="figure">
+<p><img src="images/new_architecture.png" alt="new_architecture.png" />
+</p>
+</div>
+
+<aside class="notes">
+<ul>
+<li>Events are data</li>
+<li>Transactions are data</li>
+<li>Event handlers are pure functions (mostly)</li>
+<li>AI is a pure(ish) function</li>
+<li>Router handles communication
+<ul>
+<li>Has nothing to do with navigation</li>
+<li>Calls handlers</li>
+<li>Executes transactions</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline9">
+<h2 id="orgheadline9">Original architecture</h2>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -192,8 +227,8 @@
 </section>
 </section>
 <section>
-<section id="slide-orgheadline9">
-<h2 id="orgheadline9">New architecture</h2>
+<section id="slide-orgheadline10">
+<h2 id="orgheadline10">New architecture</h2>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -245,8 +280,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline10">
-<h2 id="orgheadline10">New event system</h2>
+<section id="slide-orgheadline11">
+<h2 id="orgheadline11">New event system</h2>
 <ul>
 <li>Events are data</li>
 <li>Dispatched via core.async</li>
@@ -263,17 +298,18 @@ Not covering Component vs Integrant in this talk.
 </ul>
 
 <aside class="notes">
-<p>
-Inspired by re-frame 0.9 event system.
-</p>
+<ul>
+<li>Inspired by re-frame 0.9 event system</li>
+
+</ul>
 
 </aside>
 
 </section>
 </section>
 <section>
-<section id="slide-orgheadline11">
-<h2 id="orgheadline11">Old event handler</h2>
+<section id="slide-orgheadline12">
+<h2 id="orgheadline12">Old event handler</h2>
 <div class="org-src-container">
 
 <pre  class="src src-clojure"><span style="color: #8c8c8c;">(</span><span style="color: #FFE329;">defn</span> <span style="color: #FF88FF;">repair</span> <span style="color: #93a8c6;">[</span>conn ev<span style="color: #93a8c6;">]</span>
@@ -291,7 +327,8 @@ Inspired by re-frame 0.9 event system.
 <aside class="notes">
 <ul>
 <li>Connection (not DB) passed in</li>
-<li>Repair executes transactions</li>
+<li>Connection is a reference not value</li>
+<li>Repair and clear-connection execute transactions</li>
 
 </ul>
 
@@ -300,8 +337,8 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline12">
-<h2 id="orgheadline12">New event handler</h2>
+<section id="slide-orgheadline13">
+<h2 id="orgheadline13">New event handler</h2>
 <div class="org-src-container">
 
 <pre  class="src src-clojure"><span style="color: #8c8c8c;">(</span><span style="color: #FFE329;">defmethod</span> <span style="color: #FF88FF;">router/handle-event</span> <span style="color: #FF951B;">::repair-selected</span>
@@ -320,6 +357,11 @@ Inspired by re-frame 0.9 event system.
 
 <aside class="notes">
 <ul>
+<li>Handler is a multimethod
+<ul>
+<li>Dispatched on event type</li>
+
+</ul></li>
 <li>Pure function</li>
 <li>DB (value) passed in</li>
 <li>Events returned</li>
@@ -331,8 +373,8 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline13">
-<h2 id="orgheadline13">New event handler</h2>
+<section id="slide-orgheadline14">
+<h2 id="orgheadline14">New event handler</h2>
 <div class="org-src-container">
 
 <pre  class="src src-clojure"><span style="color: #8c8c8c;">(</span><span style="color: #FFE329;">defmethod</span> <span style="color: #FF88FF;">router/handle-event</span> <span style="color: #FF951B;">::execute-action</span>
@@ -346,7 +388,12 @@ Inspired by re-frame 0.9 event system.
 
 <aside class="notes">
 <ul>
-<li>Transactions and notifications returned</li>
+<li>Returns
+<ul>
+<li>Transaction</li>
+<li>AI notifications</li>
+
+</ul></li>
 
 </ul>
 
@@ -355,8 +402,8 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline14">
-<h2 id="orgheadline14">Router</h2>
+<section id="slide-orgheadline15">
+<h2 id="orgheadline15">Router</h2>
 <ul>
 <li>Calls handlers</li>
 <li>Executes transactions</li>
@@ -367,8 +414,8 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline15">
-<h2 id="orgheadline15">Router Loop</h2>
+<section id="slide-orgheadline16">
+<h2 id="orgheadline16">Router Loop</h2>
 <div class="org-src-container">
 
 <pre  class="src src-clojure"><span style="color: #8c8c8c;">(</span><span style="color: #FFE329;">defn</span> <span style="color: #FF88FF;">start</span> <span style="color: #93a8c6;">[</span><span style="color: #b0b1a3;">{</span><span style="color: #FF951B;">:as</span> router-ctx <span style="color: #FF951B;">:keys</span> <span style="color: #97b098;">[</span>ev-chan<span style="color: #97b098;">]</span><span style="color: #b0b1a3;">}</span><span style="color: #93a8c6;">]</span>
@@ -387,8 +434,8 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline16">
-<h2 id="orgheadline16">Router Event Handling</h2>
+<section id="slide-orgheadline17">
+<h2 id="orgheadline17">Router Event Handling</h2>
 <div class="org-src-container">
 
 <pre  class="src src-clojure"><span style="color: #8c8c8c;">(</span><span style="color: #FFE329;">defn</span> <span style="color: #FF88FF;">handle-event*</span> <span style="color: #93a8c6;">[</span><span style="color: #b0b1a3;">{</span><span style="color: #FF951B;">:as</span> router-ctx <span style="color: #FF951B;">:keys</span> <span style="color: #97b098;">[</span>conn ev-chan notify-chan<span style="color: #97b098;">]</span><span style="color: #b0b1a3;">}</span> msg<span style="color: #93a8c6;">]</span>
@@ -408,8 +455,8 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline17">
-<h2 id="orgheadline17">New event system advantages</h2>
+<section id="slide-orgheadline18">
+<h2 id="orgheadline18">New event system advantages</h2>
 <ul>
 <li>Validation</li>
 <li>Testing</li>
@@ -421,8 +468,8 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline18">
-<h2 id="orgheadline18">Original AI system</h2>
+<section id="slide-orgheadline19">
+<h2 id="orgheadline19">Original AI system</h2>
 
 <div class="figure">
 <p><img src="images/old_ai_sequence.png" alt="old_ai_sequence.png" />
@@ -454,8 +501,8 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline19">
-<h2 id="orgheadline19">New AI system</h2>
+<section id="slide-orgheadline20">
+<h2 id="orgheadline20">New AI system</h2>
 
 <div class="figure">
 <p><img src="images/new_ai_sequence.png" alt="new_ai_sequence.png" />
@@ -494,8 +541,8 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline20">
-<h2 id="orgheadline20">Other action format uses</h2>
+<section id="slide-orgheadline21">
+<h2 id="orgheadline21">Other action format uses</h2>
 <ul>
 <li>Game logging and replay</li>
 <li>Network games</li>
@@ -505,16 +552,29 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline21">
-<h2 id="orgheadline21">Optimizing Reagent and Posh</h2>
+<section id="slide-orgheadline22">
+<h2 id="orgheadline22">Questions on architecture changes?</h2>
+<aside class="notes">
 <ul>
-<li>Queries logic often overlaps
+<li>Moving on to optimization</li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline23">
+<h2 id="orgheadline23">Optimizing Reagent and Posh</h2>
+<ul>
+<li>Queries often overlap
 <ul>
 <li>Combine queries</li>
-<li>Use Reagent to create views</li>
+<li>Use reactions (tracks) to create views</li>
 
 </ul></li>
-<li>Different data changes at different rates
+<li>Data changes at different rates
 <ul>
 <li>Use separate queries for fast vs slow data</li>
 <li>Query slow data in bulk</li>
@@ -526,8 +586,11 @@ Inspired by re-frame 0.9 event system.
 
 <aside class="notes">
 <ul>
-<li>Had a hard time decided where to put this in the presentation.</li>
-<li>Example: Map changes infrequently, but units change frequently.</li>
+<li>Naive approach uses a lot queries.</li>
+<li>Naive is fine to get started.</li>
+<li>Reactions can be layered.</li>
+<li>Maps change infrequently.</li>
+<li>Units change frequently and separately.</li>
 
 </ul>
 
@@ -536,8 +599,8 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline22">
-<h2 id="orgheadline22">Optimization example</h2>
+<section id="slide-orgheadline24">
+<h2 id="orgheadline24">Optimization example</h2>
 <div class="org-src-container">
 
 <pre  class="src src-clojure"><span style="color: #8c8c8c;">(</span><span style="color: #FFE329;">deftrack</span> <span style="color: #FF88FF;">terrains</span> <span style="color: #93a8c6;">[</span>conn<span style="color: #93a8c6;">]</span>
@@ -557,19 +620,11 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline23">
-<h2 id="orgheadline23">High level AI interface</h2>
-
-<div class="figure">
-<p><img src="images/ai_interface.png" alt="ai_interface.png" />
-</p>
-</div>
-
+<section id="slide-orgheadline25">
+<h2 id="orgheadline25">Questions on optimization?</h2>
 <aside class="notes">
 <ul>
-<li>Actors = base and bases</li>
-<li>One action picked per iteration</li>
-<li>Process repeats until it returns no actions</li>
+<li>Moving on to AI how to.</li>
 
 </ul>
 
@@ -578,8 +633,63 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline24">
-<h2 id="orgheadline24">Making an AI</h2>
+<section id="slide-orgheadline26">
+<h2 id="orgheadline26">High level AI interface</h2>
+
+<div class="figure">
+<p><img src="images/ai_interface_within_system.png" alt="ai_interface_within_system.png" />
+</p>
+</div>
+
+
+<aside class="notes">
+<ul>
+<li>AI process code provided
+<ul>
+<li>Handles communication</li>
+<li>Not something you write</li>
+<li>Logical process (same JS context for now)</li>
+
+</ul></li>
+<li>User code
+<ul>
+<li>Implement AI interface</li>
+<li>Called by AI process</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline27">
+<h2 id="orgheadline27">High level AI interface</h2>
+
+<div class="figure">
+<p><img src="images/ai_interface.png" alt="ai_interface.png" />
+</p>
+</div>
+
+<aside class="notes">
+<ul>
+<li>Represents on step in iterative process</li>
+<li>Executes till no action is returned</li>
+<li>Interface is in bold</li>
+<li>Remaining logic handled by AI system</li>
+<li>Actors = base and bases</li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline28">
+<h2 id="orgheadline28">Making an AI</h2>
 <ul>
 <li>Implement actor (base/unit) score function</li>
 <li>Implement base action score function</li>
@@ -591,8 +701,8 @@ Inspired by re-frame 0.9 event system.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline25">
-<h2 id="orgheadline25">AI Example</h2>
+<section id="slide-orgheadline29">
+<h2 id="orgheadline29">AI Example</h2>
 <div class="org-src-container">
 
 <pre  class="src src-clojure"><span style="color: #8c8c8c;">(</span><span style="color: #FFE329;">defn</span> <span style="color: #FF88FF;">score-actor</span> <span style="color: #93a8c6;">[</span>db game actor actor-ctx<span style="color: #93a8c6;">]</span>
@@ -605,11 +715,32 @@ Inspired by re-frame 0.9 event system.
 </pre>
 </div>
 
+<aside class="notes">
+<ul>
+<li>actor-ctx
+<ul>
+<li>Optional (default = empty map)</li>
+<li>Returned by mk-actor-ctx</li>
+<li>Computed once for each pass over actors</li>
+<li>Primarily for optimization</li>
+
+</ul></li>
+<li>action-ctx
+<ul>
+<li>Returned by mk-base-action-ctx</li>
+<li>Computer once for each pass over base actions</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+
 </section>
 </section>
 <section>
-<section id="slide-orgheadline26">
-<h2 id="orgheadline26">AI Example</h2>
+<section id="slide-orgheadline30">
+<h2 id="orgheadline30">AI Example</h2>
 <div class="org-src-container">
 
 <pre  class="src src-clojure"><span style="color: #8c8c8c;">(</span><span style="color: #FFE329;">defn</span> <span style="color: #FF88FF;">mk-unit-action-ctx</span> <span style="color: #93a8c6;">[</span>db game actor-ctx unit<span style="color: #93a8c6;">]</span>
@@ -634,46 +765,98 @@ Inspired by re-frame 0.9 event system.
 </pre>
 </div>
 
+<aside class="notes">
+<ul>
+<li>action-ctx
+<ul>
+<li>Returned by mk-unit-action-ctx</li>
+<li>Computer once for each pass over unit actions</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+
 </section>
 </section>
 <section>
-<section id="slide-orgheadline27">
-<h2 id="orgheadline27">Lessons learned</h2>
-<p>
-TODO: add more content
-</p>
-
+<section id="slide-orgheadline31">
+<h2 id="orgheadline31">Lessons learned</h2>
 <ul>
 <li>Relational model++</li>
 <li>DataScript is fast enough</li>
-<li>Lots of room for optimization</li>
+<li>More room for optimization than expected</li>
+<li>Reified events add complexity and simplicity</li>
+<li>Architecture changes are hard</li>
 
 </ul>
+
+<aside class="notes">
+<ul>
+<li>Complexity due to increase in moving parts</li>
+<li>Simplicity due to separation of concerns</li>
+<li>Hard to motivate rewriting working code</li>
+
+</ul>
+
+</aside>
 
 </section>
 </section>
 <section>
-<section id="slide-orgheadline28">
-<h2 id="orgheadline28">Future plans</h2>
-<p>
-TODO: add more content
-</p>
-
+<section id="slide-orgheadline32">
+<h2 id="orgheadline32">Future plans</h2>
 <ul>
 <li>Engage with the community</li>
-<li>Add more AI helper functions</li>
+<li>Add AI helper functions</li>
+<li>Add info about rules and stats to UI</li>
 <li>Spec data format</li>
+<li>Write more documentation</li>
+
+</ul>
+
+<aside class="notes">
+<ul>
+<li>Focus has been on core development</li>
+<li>Want to see community maps, etc.</li>
+<li>AI is simple, but too open-ended</li>
+<li>AI helpers needed to give people ideas</li>
+<li>Documentation required for community engagement</li>
+<li>Specs will help a lot with community content</li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline33">
+<h2 id="orgheadline33">Stuff I didn't talk about</h2>
+<ul>
+<li>Game state encoding and decoding</li>
+<li>Game rules</li>
+<li>Unit action state machines</li>
+<li>Configurable zone of control</li>
+<li>Configurable attack bonuses</li>
+<li>Map, scenario, and ruleset data formats</li>
 
 </ul>
 
 </section>
 </section>
 <section>
-<section id="slide-orgheadline29">
-<h2 id="orgheadline29">Q and A</h2>
-<p>
-TODO: add links
-</p>
+<section id="slide-orgheadline34">
+<h2 id="orgheadline34">Questions?</h2>
+<ul>
+<li><a href="http://www.zetawar.com/">http://www.zetawar.com/</a></li>
+<li><a href="https://github.com/zetawar/zetawar">https://github.com/zetawar/zetawar</a></li>
+<li><a href="https://github.com/djwhitt/madison-clojure-zetawar-evolution-2017">https://github.com/djwhitt/madison-clojure-zetawar-evolution-2017</a></li>
+<li>@djwhitt on Twitter and GitHub</li>
+<li>@ZetawarGame on Twitter</li>
+
+</ul>
 </section>
 </section>
 </div>

@@ -2,6 +2,21 @@
 #+OPTIONS: num:nil toc:nil reveal_title_slide:nil
 
 * The Evolution of Zetawar
+* Intro
+
+  - https://github.com/djwhitt/madison-clojure-zetawar-evolution-2017
+  - http://www.zetawar.com/
+  - https://github.com/zetawar/zetawar
+  - @djwhitt on Twitter and GitHub
+  - @ZetawarGame on Twitter
+
+  #+BEGIN_NOTES
+  - David Whittington
+  - Independent software developer
+  - Working on Zetawar full time since July
+  - Available at the end of January
+  #+END_NOTES
+ 
 * What is Zetawar?
 
   - Turn based strategy browser game
@@ -9,8 +24,9 @@
   - 100% ClojureScript
 
   #+BEGIN_NOTES
-  - Kickstarter was successfully funded in July.
-  - Some Clojure for static site rendering, but game logic is 100% ClojureScript.
+  - Kickstarter funded in July
+  - Some Clojure for site
+  - Game logic 100% ClojureScript
   #+END_NOTES
 
 * Goals
@@ -20,8 +36,8 @@
   - Beginner friendly AI environment
 
   #+BEGIN_NOTES
-  - Several similar games have been shut down essentially due to hosting or maintenance costs.
-  - There aren't tons of large open source ClojureScript applications people can learn from.
+  - Several similar games shut down by hosting cost
+  - We need more large OSS ClojureScript applications
   #+END_NOTES
 
 * Demo
@@ -73,17 +89,16 @@
 
 
   #+BEGIN_NOTES
-  - DataScript is a fully relational in-memory DB
-  - DataScript is the canonical data store
-  - Views are rendered by Reagent (React)
-  - Views are pure functions of the DB
-  - View updates are automatic
-  - Posh executes reactive DataScript queries
-  - Tracks are a type of reaction in Reagent
-  - Reactions are reactive functions of data and other reactions
-  - Combination of Posh + Tracks is similar to in-memory mviews
-  - Events and transactions are not reified
-  - AI is an impure function called by the 'end-turn' handler
+  - *DataScript* is the *canonical data store*
+  - DataScript is a *relational in-memory DB*
+  - *Views* are *rendered by Reagent* (React)
+  - Views are *pure functions* of the DB
+  - View *updates are automatic*
+  - *Posh* reactively executes *DataScript queries*
+  - *Tracks* are reactive functions
+  - Posh + Tracks = *in-memory mviews*
+  - *Events and transactions* are *not reified*
+  - *AI* is an *impure function* called by 'end-turn' handler
   #+END_NOTES
 
 * New architecture
@@ -121,7 +136,14 @@
   [[file:images/new_architecture.png]]
 
   #+BEGIN_NOTES
-  - Not clear in diagram, but the router executes transactions.
+  - Events are data
+  - Transactions are data
+  - Event handlers are pure functions (mostly)
+  - AI is a pure(ish) function
+  - Router handles communication
+    - Has nothing to do with navigation
+    - Calls handlers
+    - Executes transactions
   #+END_NOTES
 
 * Original architecture
@@ -158,7 +180,7 @@
     - AI notifications
 
   #+BEGIN_NOTES
-  Inspired by re-frame 0.9 event system.
+  - Inspired by re-frame 0.9 event system
   #+END_NOTES
 
 * Old event handler
@@ -177,7 +199,8 @@
 
   #+BEGIN_NOTES
   - Connection (not DB) passed in
-  - Repair executes transactions
+  - Connection is a reference not value
+  - Repair and clear-connection execute transactions
   #+END_NOTES
 
 * New event handler
@@ -197,6 +220,8 @@
   #+END_SRC
 
   #+BEGIN_NOTES
+  - Handler is a multimethod
+    - Dispatched on event type
   - Pure function
   - DB (value) passed in
   - Events returned
@@ -214,7 +239,9 @@
   #+END_SRC
 
   #+BEGIN_NOTES
-  - Transactions and notifications returned
+  - Returns
+    - Transaction
+    - AI notifications
   #+END_NOTES
 
 * Router
@@ -338,19 +365,28 @@
   - Game logging and replay
   - Network games
 
+* Questions on architecture changes?
+
+  #+BEGIN_NOTES
+  - Moving on to optimization
+  #+END_NOTES
+
 * Optimizing Reagent and Posh
 
-  - Queries logic often overlaps
+  - Queries often overlap
     - Combine queries
-    - Use Reagent to create views
-  - Different data changes at different rates
+    - Use reactions (tracks) to create views
+  - Data changes at different rates
     - Use separate queries for fast vs slow data
     - Query slow data in bulk
     - Query fast data at granularity of change
 
   #+BEGIN_NOTES
-  - Had a hard time decided where to put this in the presentation. 
-  - Example: Map changes infrequently, but units change frequently.
+  - Naive approach uses a lot queries.
+  - Naive is fine to get started.
+  - Reactions can be layered.
+  - Maps change infrequently.
+  - Units change frequently and separately.
   #+END_NOTES
 
 * Optimization example
@@ -369,17 +405,52 @@
           0))
   #+END_SRC
 
+* Questions on optimization?
+
+  #+BEGIN_NOTES
+  - Moving on to AI how to.
+  #+END_NOTES
+
+* High level AI interface
+
+  #+BEGIN_SRC ditaa :file images/ai_interface_within_system.png
+                        +------------------------+
+                        |                        |
+    +----------+        | AI process             |
+    |          |        |                        |
+    | Zetawar  +<------>+          +-----------+ |
+    |          |        |          |           | |
+    +----------+        |          | User code | |
+                        |          |           | |
+                        |          +-----------+ |
+                        +------------------------+
+  #+END_SRC
+
+  #+RESULTS:
+  [[file:images/ai_interface_within_system.png]]
+
+
+  #+BEGIN_NOTES
+  - AI process code provided
+    - Handles communication
+    - Not something you write
+    - Logical process (same JS context for now)
+  - User code
+    - Implement AI interface
+    - Called by AI process
+  #+END_NOTES
+
 * High level AI interface
 
   #+BEGIN_SRC plantuml :file images/ai_interface.png
   start
 
   while (actors to score?)
-    :score actor;
+    :**SCORE ACTOR**;
   endwhile
   :pick actor with highest score;
   while (actions to score?)
-    :score actions;
+    :**SCORE ACTION**;
   endwhile
   :pick action with highest score;
   :perform action;
@@ -391,9 +462,11 @@
   [[file:images/ai_interface.png]]
 
   #+BEGIN_NOTES
+  - Represents on step in iterative process
+  - Executes till no action is returned
+  - Interface is in bold
+  - Remaining logic handled by AI system
   - Actors = base and bases
-  - One action picked per iteration
-  - Process repeats until it returns no actions
   #+END_NOTES
 
 * Making an AI
@@ -414,6 +487,17 @@
     (defn score-base-action [db game base action-ctx action]
       (rand-int 200))
   #+END_SRC
+
+  #+BEGIN_NOTES
+  - actor-ctx
+    - Optional (default = empty map)
+    - Returned by mk-actor-ctx
+    - Computed once for each pass over actors
+    - Primarily for optimization
+  - action-ctx
+    - Returned by mk-base-action-ctx
+    - Computer once for each pass over base actions
+  #+END_NOTES
 
 * AI Example
 
@@ -438,23 +522,57 @@
 
           0)))
   #+END_SRC
- 
+
+  #+BEGIN_NOTES
+  - action-ctx
+    - Returned by mk-unit-action-ctx
+    - Computer once for each pass over unit actions
+  #+END_NOTES
+
 * Lessons learned
 
-  TODO: add more content
-   
   - Relational model++
   - DataScript is fast enough
-  - Lots of room for optimization
+  - More room for optimization than expected
+  - Reified events add complexity and simplicity
+  - Architecture changes are hard
+
+  #+BEGIN_NOTES
+  - Complexity due to increase in moving parts
+  - Simplicity due to separation of concerns
+  - Hard to motivate rewriting working code
+  #+END_NOTES
 
 * Future plans
   
-  TODO: add more content
-
   - Engage with the community
-  - Add more AI helper functions
+  - Add AI helper functions
+  - Add info about rules and stats to UI
   - Spec data format
+  - Write more documentation
 
-* Q and A
+  #+BEGIN_NOTES
+  - Focus has been on core development
+  - Want to see community maps, etc.
+  - AI is simple, but too open-ended 
+  - AI helpers needed to give people ideas
+  - Documentation required for community engagement
+  - Specs will help a lot with community content
+  #+END_NOTES
 
-  TODO: add links
+* Stuff I didn't talk about
+
+  - Game state encoding and decoding
+  - Game rules
+  - Unit action state machines
+  - Configurable zone of control
+  - Configurable attack bonuses
+  - Map, scenario, and ruleset data formats
+
+* Questions?
+
+  - http://www.zetawar.com/
+  - https://github.com/zetawar/zetawar
+  - https://github.com/djwhitt/madison-clojure-zetawar-evolution-2017
+  - @djwhitt on Twitter and GitHub
+  - @ZetawarGame on Twitter
