@@ -570,7 +570,7 @@
 
   - Game state encoding and decoding
   - Game rules
-  - Unit action state machines
+  - Unit action state maps
   - Configurable zone of control
   - Configurable attack bonuses
   - Map, scenario, and ruleset data formats
