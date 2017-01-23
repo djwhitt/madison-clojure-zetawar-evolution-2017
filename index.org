@@ -1,4 +1,5 @@
 #+REVEAL_ROOT: .
+#+REVEAL_TRANS: none
 #+OPTIONS: num:nil toc:nil reveal_title_slide:nil
 
 * The Evolution of Zetawar
