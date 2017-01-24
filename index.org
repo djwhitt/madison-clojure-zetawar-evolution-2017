@@ -556,7 +556,6 @@
     - Returned by mk-unit-action-ctx
     - Computer once for each pass over unit actions
   - Start with zetawar/players/ai/custom.cljs
-  - Maybe wait till Thursday though (dir re-org)
   #+END_NOTES
 
 * AI interface questions?
@@ -610,9 +609,11 @@
 
 * Questions?
 
-  - http://www.zetawar.com/
-  - https://github.com/zetawar/zetawar
   - https://github.com/djwhitt/madison-clojure-zetawar-evolution-2017
+  - http://www.zetawar.com/
+  - http://dev.zetawar.com/
+  - https://github.com/zetawar/zetawar
+  - https://github.com/Zetawar/zetawar/blob/master/src/cljs/zetawar/players/ai/custom.cljs
   - @djwhitt on Twitter and GitHub
   - djwhitt@gmail.com
   - @ZetawarGame on Twitter
