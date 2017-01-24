@@ -39,6 +39,7 @@
 <li><a href="http://www.zetawar.com/">http://www.zetawar.com/</a></li>
 <li><a href="https://github.com/zetawar/zetawar">https://github.com/zetawar/zetawar</a></li>
 <li>@djwhitt on Twitter and GitHub</li>
+<li>djwhitt@gmail.com</li>
 <li>@ZetawarGame on Twitter</li>
 
 </ul>
@@ -46,9 +47,10 @@
 <aside class="notes">
 <ul>
 <li>David Whittington</li>
+<li>Creator of Zetawar</li>
 <li>Independent software developer</li>
 <li>Working on Zetawar full time since July</li>
-<li>Available at the end of January</li>
+<li>Available for work in a few weeks</li>
 
 </ul>
 
@@ -70,6 +72,7 @@
 <ul>
 <li>Kickstarter funded in July</li>
 <li>Some Clojure for site</li>
+<li>Uses JavaScript libraries</li>
 <li>Game logic 100% ClojureScript</li>
 
 </ul>
@@ -92,6 +95,7 @@
 <ul>
 <li>Several similar games shut down by hosting cost</li>
 <li>We need more large OSS ClojureScript applications</li>
+<li>AI for teaching and fun (also I really want it)</li>
 
 </ul>
 
@@ -120,6 +124,16 @@
 
 </ul>
 
+<aside class="notes">
+<ul>
+<li>Covers changes from July demo to now</li>
+<li>Builds on previous talk</li>
+<li>Assumes conceptual familiarity with React</li>
+
+</ul>
+
+</aside>
+
 </section>
 </section>
 <section>
@@ -135,7 +149,7 @@
 <aside class="notes">
 <ul>
 <li><b>DataScript</b> is the <b>canonical data store</b></li>
-<li>DataScript is a <b>relational in-memory DB</b></li>
+<li>DataScript is a <b>immutable in-memory relational DB</b></li>
 <li><b>Views</b> are <b>rendered by Reagent</b> (React)</li>
 <li>Views are <b>pure functions</b> of the DB</li>
 <li>View <b>updates are automatic</b></li>
@@ -216,11 +230,6 @@
 <td class="org-left">AI communication</td>
 <td class="org-left">Direct DB interaction</td>
 </tr>
-
-<tr>
-<td class="org-left">Lifecycle</td>
-<td class="org-left">Component</td>
-</tr>
 </tbody>
 </table>
 
@@ -262,20 +271,8 @@
 <td class="org-left">AI communication</td>
 <td class="org-left">Notifications and events</td>
 </tr>
-
-<tr>
-<td class="org-left">Lifecycle</td>
-<td class="org-left">Integrant</td>
-</tr>
 </tbody>
 </table>
-
-<aside class="notes">
-<p>
-Not covering Component vs Integrant in this talk.
-</p>
-
-</aside>
 
 </section>
 </section>
@@ -407,6 +404,7 @@ Not covering Component vs Integrant in this talk.
 <ul>
 <li>Calls handlers</li>
 <li>Executes transactions</li>
+<li>Dispatches events</li>
 <li>Sends AI notifications</li>
 
 </ul>
@@ -452,6 +450,19 @@ Not covering Component vs Integrant in this talk.
 </pre>
 </div>
 
+<aside class="notes">
+<ul>
+<li>Possible improvements
+<ul>
+<li>Prioritize returned events</li>
+<li>Add timeout for player notifications</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+
 </section>
 </section>
 <section>
@@ -469,7 +480,20 @@ Not covering Component vs Integrant in this talk.
 </section>
 <section>
 <section id="slide-orgheadline19">
-<h2 id="orgheadline19">Original AI system</h2>
+<h2 id="orgheadline19">Event system questions?</h2>
+<aside class="notes">
+<ul>
+<li>Moving on AI system</li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-orgheadline20">
+<h2 id="orgheadline20">Original AI system</h2>
 
 <div class="figure">
 <p><img src="images/old_ai_sequence.png" alt="old_ai_sequence.png" />
@@ -501,8 +525,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline20">
-<h2 id="orgheadline20">New AI system</h2>
+<section id="slide-orgheadline21">
+<h2 id="orgheadline21">New AI system</h2>
 
 <div class="figure">
 <p><img src="images/new_ai_sequence.png" alt="new_ai_sequence.png" />
@@ -541,8 +565,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline21">
-<h2 id="orgheadline21">Other action format uses</h2>
+<section id="slide-orgheadline22">
+<h2 id="orgheadline22">Other action format uses</h2>
 <ul>
 <li>Game logging and replay</li>
 <li>Network games</li>
@@ -552,11 +576,12 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline22">
-<h2 id="orgheadline22">Architecture questions?</h2>
+<section id="slide-orgheadline23">
+<h2 id="orgheadline23">AI system questions?</h2>
 <aside class="notes">
 <ul>
 <li>Moving on to optimization</li>
+<li>We'll come back to AI after optimization</li>
 
 </ul>
 
@@ -565,8 +590,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline23">
-<h2 id="orgheadline23">Optimizing Reagent and Posh</h2>
+<section id="slide-orgheadline24">
+<h2 id="orgheadline24">Optimizing Reagent and Posh</h2>
 <ul>
 <li>Queries often overlap
 <ul>
@@ -599,8 +624,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline24">
-<h2 id="orgheadline24">Optimization example</h2>
+<section id="slide-orgheadline25">
+<h2 id="orgheadline25">Optimization example</h2>
 <div class="org-src-container">
 
 <pre  class="src src-clojure"><span style="color: #8c8c8c;">(</span><span style="color: #FFE329;">deftrack</span> <span style="color: #FF88FF;">terrains</span> <span style="color: #93a8c6;">[</span>conn<span style="color: #93a8c6;">]</span>
@@ -620,8 +645,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline25">
-<h2 id="orgheadline25">Optimization questions?</h2>
+<section id="slide-orgheadline26">
+<h2 id="orgheadline26">Optimization questions?</h2>
 <aside class="notes">
 <ul>
 <li>Moving on to AI how to.</li>
@@ -633,8 +658,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline26">
-<h2 id="orgheadline26">High level AI interface</h2>
+<section id="slide-orgheadline27">
+<h2 id="orgheadline27">High level AI interface</h2>
 
 <div class="figure">
 <p><img src="images/ai_interface_within_system.png" alt="ai_interface_within_system.png" />
@@ -653,7 +678,7 @@ Not covering Component vs Integrant in this talk.
 </ul></li>
 <li>User code
 <ul>
-<li>Implement AI interface</li>
+<li>Implements AI interface</li>
 <li>Called by AI process</li>
 
 </ul></li>
@@ -665,8 +690,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline27">
-<h2 id="orgheadline27">High level AI interface</h2>
+<section id="slide-orgheadline28">
+<h2 id="orgheadline28">High level AI interface</h2>
 
 <div class="figure">
 <p><img src="images/ai_interface.png" alt="ai_interface.png" />
@@ -675,11 +700,11 @@ Not covering Component vs Integrant in this talk.
 
 <aside class="notes">
 <ul>
-<li>Represents on step in iterative process</li>
+<li>Represents one step in iterative process</li>
 <li>Executes till no action is returned</li>
 <li>Interface is in bold</li>
 <li>Remaining logic handled by AI system</li>
-<li>Actors = base and bases</li>
+<li>Actors = units and bases</li>
 
 </ul>
 
@@ -688,12 +713,12 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline28">
-<h2 id="orgheadline28">Making an AI</h2>
+<section id="slide-orgheadline29">
+<h2 id="orgheadline29">Making an AI</h2>
 <ul>
 <li>Implement actor (base/unit) score function</li>
 <li>Implement base action score function</li>
-<li>Implement unit action chooser</li>
+<li>Implement unit action score function</li>
 <li>Profit!</li>
 
 </ul>
@@ -701,8 +726,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline29">
-<h2 id="orgheadline29">AI Example</h2>
+<section id="slide-orgheadline30">
+<h2 id="orgheadline30">AI Example</h2>
 <div class="org-src-container">
 
 <pre  class="src src-clojure"><span style="color: #8c8c8c;">(</span><span style="color: #FFE329;">defn</span> <span style="color: #FF88FF;">score-actor</span> <span style="color: #93a8c6;">[</span>db game actor actor-ctx<span style="color: #93a8c6;">]</span>
@@ -739,8 +764,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline30">
-<h2 id="orgheadline30">AI Example</h2>
+<section id="slide-orgheadline31">
+<h2 id="orgheadline31">AI Example</h2>
 <div class="org-src-container">
 
 <pre  class="src src-clojure"><span style="color: #8c8c8c;">(</span><span style="color: #FFE329;">defn</span> <span style="color: #FF88FF;">mk-unit-action-ctx</span> <span style="color: #93a8c6;">[</span>db game actor-ctx unit<span style="color: #93a8c6;">]</span>
@@ -781,8 +806,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline31">
-<h2 id="orgheadline31">AI interface questions?</h2>
+<section id="slide-orgheadline32">
+<h2 id="orgheadline32">AI interface questions?</h2>
 <aside class="notes">
 <ul>
 <li>Moving on to conclusion.</li>
@@ -794,8 +819,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline32">
-<h2 id="orgheadline32">Lessons learned</h2>
+<section id="slide-orgheadline33">
+<h2 id="orgheadline33">Lessons learned</h2>
 <ul>
 <li>Relational model++</li>
 <li>DataScript is fast enough</li>
@@ -818,8 +843,8 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline33">
-<h2 id="orgheadline33">Future plans</h2>
+<section id="slide-orgheadline34">
+<h2 id="orgheadline34">Future plans</h2>
 <ul>
 <li>Engage with the community</li>
 <li>Add AI helper functions</li>
@@ -845,9 +870,10 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline34">
-<h2 id="orgheadline34">Stuff I didn't talk about</h2>
+<section id="slide-orgheadline35">
+<h2 id="orgheadline35">Stuff I didn't talk about</h2>
 <ul>
+<li>Component vs Integrant</li>
 <li>Game state encoding and decoding</li>
 <li>Game rules</li>
 <li>Unit action state maps</li>
@@ -860,13 +886,14 @@ Not covering Component vs Integrant in this talk.
 </section>
 </section>
 <section>
-<section id="slide-orgheadline35">
-<h2 id="orgheadline35">Questions?</h2>
+<section id="slide-orgheadline36">
+<h2 id="orgheadline36">Questions?</h2>
 <ul>
 <li><a href="http://www.zetawar.com/">http://www.zetawar.com/</a></li>
 <li><a href="https://github.com/zetawar/zetawar">https://github.com/zetawar/zetawar</a></li>
 <li><a href="https://github.com/djwhitt/madison-clojure-zetawar-evolution-2017">https://github.com/djwhitt/madison-clojure-zetawar-evolution-2017</a></li>
 <li>@djwhitt on Twitter and GitHub</li>
+<li>djwhitt@gmail.com</li>
 <li>@ZetawarGame on Twitter</li>
 
 </ul>

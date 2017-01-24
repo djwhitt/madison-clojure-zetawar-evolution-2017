@@ -17,7 +17,7 @@
   - Creator of Zetawar
   - Independent software developer
   - Working on Zetawar full time since July
-  - Available at the end of January
+  - Available for work in a few weeks
   #+END_NOTES
  
 * What is Zetawar?
@@ -42,6 +42,7 @@
   #+BEGIN_NOTES
   - Several similar games shut down by hosting cost
   - We need more large OSS ClojureScript applications
+  - AI for teaching and fun (also I really want it)
   #+END_NOTES
 
 * Demo
@@ -60,7 +61,7 @@
   #+BEGIN_NOTES
   - Covers changes from July demo to now
   - Builds on previous talk
-  - Ask about React familiarity
+  - Assumes conceptual familiarity with React
   #+END_NOTES
 
 * Original architecture
@@ -100,7 +101,7 @@
 
   #+BEGIN_NOTES
   - *DataScript* is the *canonical data store*
-  - DataScript is a *immutable relational in-memory DB*
+  - DataScript is a *immutable in-memory relational DB*
   - *Views* are *rendered by Reagent* (React)
   - Views are *pure functions* of the DB
   - View *updates are automatic*
@@ -163,7 +164,6 @@
   | Model → View     | Posh + Tracks         |
   | Event handling   | Callbacks             |
   | AI communication | Direct DB interaction |
-  | Lifecycle        | Component             |
 
 * New architecture
 
@@ -172,11 +172,6 @@
   | Model → View     | Unchanged                   |
   | Event handling   | Reified events + core.async |
   | AI communication | Notifications and events    |
-  | Lifecycle        | Integrant                   |
-
-  #+BEGIN_NOTES
-  Not covering Component vs Integrant in this talk.
-  #+END_NOTES
 
 * New event system
   
@@ -258,6 +253,7 @@
 
   - Calls handlers
   - Executes transactions
+  - Dispatches events
   - Sends AI notifications
 
 * Router Loop
@@ -290,6 +286,12 @@
         (doseq [notify-msg (:notify ret)]
           (players/notify notify-chan notify-msg))))
   #+END_SRC
+
+  #+BEGIN_NOTES
+  - Possible improvements
+    - Prioritize returned events
+    - Add timeout for player notifications
+  #+END_NOTES
 
 * New event system advantages 
 
@@ -385,6 +387,7 @@
 
   #+BEGIN_NOTES
   - Moving on to optimization
+  - We'll come back to AI after optimization
   #+END_NOTES
 
 * Optimizing Reagent and Posh
@@ -452,7 +455,7 @@
     - Not something you write
     - Logical process (same JS context for now)
   - User code
-    - Implement AI interface
+    - Implements AI interface
     - Called by AI process
   #+END_NOTES
 
@@ -584,6 +587,7 @@
 
 * Stuff I didn't talk about
 
+  - Component vs Integrant
   - Game state encoding and decoding
   - Game rules
   - Unit action state maps
