@@ -9,10 +9,12 @@
   - http://www.zetawar.com/
   - https://github.com/zetawar/zetawar
   - @djwhitt on Twitter and GitHub
+  - djwhitt@gmail.com
   - @ZetawarGame on Twitter
 
   #+BEGIN_NOTES
   - David Whittington
+  - Creator of Zetawar
   - Independent software developer
   - Working on Zetawar full time since July
   - Available at the end of January
@@ -27,6 +29,7 @@
   #+BEGIN_NOTES
   - Kickstarter funded in July
   - Some Clojure for site
+  - Uses JavaScript libraries
   - Game logic 100% ClojureScript
   #+END_NOTES
 
@@ -53,6 +56,12 @@
   - How to write an AI
   - Lessons learned
   - Future plans
+
+  #+BEGIN_NOTES
+  - Covers changes from July demo to now
+  - Builds on previous talk
+  - Ask about React familiarity
+  #+END_NOTES
 
 * Original architecture
 
@@ -91,7 +100,7 @@
 
   #+BEGIN_NOTES
   - *DataScript* is the *canonical data store*
-  - DataScript is a *relational in-memory DB*
+  - DataScript is a *immutable relational in-memory DB*
   - *Views* are *rendered by Reagent* (React)
   - Views are *pure functions* of the DB
   - View *updates are automatic*
@@ -283,11 +292,17 @@
   #+END_SRC
 
 * New event system advantages 
-  
+
   - Validation
   - Testing
   - Logging
   - Error handling
+
+* Event system questions?
+
+  #+BEGIN_NOTES
+  - Moving on AI system
+  #+END_NOTES
 
 * Original AI system
 
@@ -366,7 +381,7 @@
   - Game logging and replay
   - Network games
 
-* Architecture questions?
+* AI system questions?
 
   #+BEGIN_NOTES
   - Moving on to optimization
@@ -463,18 +478,18 @@
   [[file:images/ai_interface.png]]
 
   #+BEGIN_NOTES
-  - Represents on step in iterative process
+  - Represents one step in iterative process
   - Executes till no action is returned
   - Interface is in bold
   - Remaining logic handled by AI system
-  - Actors = base and bases
+  - Actors = units and bases
   #+END_NOTES
 
 * Making an AI
 
   - Implement actor (base/unit) score function
   - Implement base action score function
-  - Implement unit action chooser
+  - Implement unit action score function
   - Profit!
 
 * AI Example
@@ -582,4 +597,5 @@
   - https://github.com/zetawar/zetawar
   - https://github.com/djwhitt/madison-clojure-zetawar-evolution-2017
   - @djwhitt on Twitter and GitHub
+  - djwhitt@gmail.com
   - @ZetawarGame on Twitter
