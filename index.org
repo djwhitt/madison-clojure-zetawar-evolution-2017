@@ -556,6 +556,7 @@
     - Returned by mk-unit-action-ctx
     - Computer once for each pass over unit actions
   - Start with zetawar/players/ai/custom.cljs
+  - Maybe wait till Thursday though (dir re-org)
   #+END_NOTES
 
 * AI interface questions?
