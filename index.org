@@ -600,6 +600,7 @@
 * Stuff I didn't talk about
 
   - Component vs Integrant
+  - Build automation
   - Game state encoding and decoding
   - Game rules
   - Unit action state maps
