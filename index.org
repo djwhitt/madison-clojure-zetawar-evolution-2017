@@ -3,6 +3,9 @@
 #+OPTIONS: num:nil toc:nil reveal_title_slide:nil
 
 * The Evolution of Zetawar
+
+  [[file:images/zetawar_logo.svg]]
+
 * Intro
 
   - https://github.com/djwhitt/madison-clojure-zetawar-evolution-2017
@@ -302,6 +305,8 @@
 
 * Event system questions?
 
+  [[file:images/question_chinchilla_1.jpg]]
+
   #+BEGIN_NOTES
   - Moving on AI system
   #+END_NOTES
@@ -385,6 +390,8 @@
 
 * AI system questions?
 
+  [[file:images/question_chinchilla_2.jpg]]
+
   #+BEGIN_NOTES
   - Moving on to optimization
   - We'll come back to AI after optimization
@@ -425,6 +432,8 @@
   #+END_SRC
 
 * Optimization questions?
+
+  [[file:images/question_chinchilla_3.jpg]]
 
   #+BEGIN_NOTES
   - Moving on to AI how to.
@@ -549,6 +558,8 @@
   #+END_NOTES
 
 * AI interface questions?
+
+  [[file:images/question_chinchilla_4.jpg]]
 
   #+BEGIN_NOTES
   - Moving on to conclusion.
